@@ -18,11 +18,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Распределение нагрузки", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Списки
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-item">@Html.ActionLink("Предметы", "Index", "Subjects")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Преподаватели", "Index", "Lecturers")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Потоки", "Index", "Streams")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Группы", "Index", "Groups")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Специальности", "Index", "Specialties")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Учебные планы", "Index", "Syllabus")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Нормы", "Index", "Standards")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Курсовые работы", "Index", "CourseWorks")</div>
+                            <div class="dropdown-item">@Html.ActionLink("Специальности", "Index", "SyllabusContents")</div>
+                        </div>
+                    </li>
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
                 </ul>

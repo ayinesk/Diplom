@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LoadDist.Models.DataModels.SyllabusContent>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LectureHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LabsHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PracticalHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExamHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TestHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Term)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LectureHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LabsHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PracticalHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Term)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using LoadDist.Models.DataModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -29,5 +30,16 @@ namespace LoadDist.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Lecturer> Lecturers { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
+        public DbSet<Stream> Streams { get; set; }
+        public DbSet<Syllabus> Syllabi { get; set; }
+        public DbSet<SyllabusContent> SyllabusContents { get; set; }
+        public DbSet<Load> Loads { get; set; }
+        public DbSet<CourseWork> CourseWorks { get; set; }
+        public DbSet<Standard> Standards { get; set; }
     }
 }

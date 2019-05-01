@@ -174,14 +174,52 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CourseWorksController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LecturersController.cs" />
+    <Compile Include="Controllers\LoadsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SpecialtiesController.cs" />
+    <Compile Include="Controllers\StandardsController.cs" />
+    <Compile Include="Controllers\StreamsController.cs" />
+    <Compile Include="Controllers\SubjectsController.cs" />
+    <Compile Include="Controllers\SyllabusContentsController.cs" />
+    <Compile Include="Controllers\SyllabusController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904091841000_InitialCreate.cs" />
+    <Compile Include="Migrations\201904091841000_InitialCreate.Designer.cs">
+      <DependentUpon>201904091841000_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904091923153_CreateTables.cs" />
+    <Compile Include="Migrations\201904091923153_CreateTables.Designer.cs">
+      <DependentUpon>201904091923153_CreateTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904092003332_CreateTables1.cs" />
+    <Compile Include="Migrations\201904092003332_CreateTables1.Designer.cs">
+      <DependentUpon>201904092003332_CreateTables1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904141329251_AddTablesAndRows.cs" />
+    <Compile Include="Migrations\201904141329251_AddTablesAndRows.Designer.cs">
+      <DependentUpon>201904141329251_AddTablesAndRows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DataModels\CourseWork.cs" />
+    <Compile Include="Models\DataModels\Group.cs" />
+    <Compile Include="Models\DataModels\Lecturer.cs" />
+    <Compile Include="Models\DataModels\Load.cs" />
+    <Compile Include="Models\DataModels\Standard.cs" />
+    <Compile Include="Models\DataModels\SyllabusContent.cs" />
+    <Compile Include="Models\DataModels\Specialty.cs" />
+    <Compile Include="Models\DataModels\Stream.cs" />
+    <Compile Include="Models\DataModels\Subject.cs" />
+    <Compile Include="Models\DataModels\Syllabus.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\AddSubjectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -207,7 +245,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -241,6 +281,59 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Subjects\Create.cshtml" />
+    <Content Include="Views\Subjects\Delete.cshtml" />
+    <Content Include="Views\Subjects\Details.cshtml" />
+    <Content Include="Views\Subjects\Edit.cshtml" />
+    <Content Include="Views\Subjects\Index.cshtml" />
+    <Content Include="Views\Lecturers\Create.cshtml" />
+    <Content Include="Views\Lecturers\Delete.cshtml" />
+    <Content Include="Views\Lecturers\Details.cshtml" />
+    <Content Include="Views\Lecturers\Edit.cshtml" />
+    <Content Include="Views\Lecturers\Index.cshtml" />
+    <Content Include="Views\Subjects\_LecturersPartial.cshtml" />
+    <Content Include="Views\Lecturers\_SubjectsPartial.cshtml" />
+    <Content Include="Views\CourseWorks\Create.cshtml" />
+    <Content Include="Views\CourseWorks\Delete.cshtml" />
+    <Content Include="Views\CourseWorks\Details.cshtml" />
+    <Content Include="Views\CourseWorks\Edit.cshtml" />
+    <Content Include="Views\CourseWorks\Index.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Loads\Create.cshtml" />
+    <Content Include="Views\Loads\Delete.cshtml" />
+    <Content Include="Views\Loads\Details.cshtml" />
+    <Content Include="Views\Loads\Edit.cshtml" />
+    <Content Include="Views\Loads\Index.cshtml" />
+    <Content Include="Views\Specialties\Create.cshtml" />
+    <Content Include="Views\Specialties\Delete.cshtml" />
+    <Content Include="Views\Specialties\Details.cshtml" />
+    <Content Include="Views\Specialties\Edit.cshtml" />
+    <Content Include="Views\Specialties\Index.cshtml" />
+    <Content Include="Views\Standards\Create.cshtml" />
+    <Content Include="Views\Standards\Delete.cshtml" />
+    <Content Include="Views\Standards\Details.cshtml" />
+    <Content Include="Views\Standards\Edit.cshtml" />
+    <Content Include="Views\Standards\Index.cshtml" />
+    <Content Include="Views\Streams\Create.cshtml" />
+    <Content Include="Views\Streams\Delete.cshtml" />
+    <Content Include="Views\Streams\Details.cshtml" />
+    <Content Include="Views\Streams\Edit.cshtml" />
+    <Content Include="Views\Streams\Index.cshtml" />
+    <Content Include="Views\Syllabus\Create.cshtml" />
+    <Content Include="Views\Syllabus\Delete.cshtml" />
+    <Content Include="Views\Syllabus\Details.cshtml" />
+    <Content Include="Views\Syllabus\Edit.cshtml" />
+    <Content Include="Views\Syllabus\Index.cshtml" />
+    <Content Include="Views\SyllabusContents\Create.cshtml" />
+    <Content Include="Views\SyllabusContents\Delete.cshtml" />
+    <Content Include="Views\SyllabusContents\Details.cshtml" />
+    <Content Include="Views\SyllabusContents\Edit.cshtml" />
+    <Content Include="Views\SyllabusContents\Index.cshtml" />
+    <Content Include="Views\Lecturers\AddSubject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -257,6 +350,20 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201904091841000_InitialCreate.resx">
+      <DependentUpon>201904091841000_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904091923153_CreateTables.resx">
+      <DependentUpon>201904091923153_CreateTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904092003332_CreateTables1.resx">
+      <DependentUpon>201904092003332_CreateTables1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904141329251_AddTablesAndRows.resx">
+      <DependentUpon>201904141329251_AddTablesAndRows.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

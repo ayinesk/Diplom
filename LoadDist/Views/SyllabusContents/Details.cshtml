@@ -1,0 +1,66 @@
+﻿@model LoadDist.Models.DataModels.SyllabusContent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SyllabusContent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LectureHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LectureHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LabsHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LabsHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PracticalHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PracticalHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TestHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TestHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Term)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Term)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
