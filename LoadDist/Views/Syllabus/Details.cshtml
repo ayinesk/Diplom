@@ -4,23 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Учебный план</h2>
 
 <div>
-    <h4>Syllabus</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AdmissionYear)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AdmissionYear)
-        </dd>
-
-    </dl>
+    <h4>@string.Format($"Специальность: {Model.Specialty.Name}")</h4>
+    <h4>@string.Format($"Год набора: {Model.AdmissionYear}")</h4>
+    <h4>Содержание плана:</h4>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>
