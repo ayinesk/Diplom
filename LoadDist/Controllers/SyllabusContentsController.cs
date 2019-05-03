@@ -38,9 +38,11 @@ namespace LoadDist.Controllers
         }
 
         // GET: SyllabusContents/Create
-        public ActionResult Create()
+        public ActionResult Create(int? syllabusId)
         {
-            return View();
+            ViewBag.Subjects = new SelectList(db.Subjects, "Id", "Name");
+            var newItem = new SyllabusContent { Syllabus = db.Syllabi.Include(s => s.Specialty).FirstOrDefault(s => s.Id == syllabusId) };
+            return View(newItem);
         }
 
         // POST: SyllabusContents/Create
@@ -48,7 +50,7 @@ namespace LoadDist.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,LectureHours,LabsHours,PracticalHours,ExamHours,TestHours,Term")] SyllabusContent syllabusContent)
+        public async Task<ActionResult> Create(SyllabusContent syllabusContent)
         {
             if (ModelState.IsValid)
             {
@@ -111,10 +113,10 @@ namespace LoadDist.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            SyllabusContent syllabusContent = await db.SyllabusContents.FindAsync(id);
+            SyllabusContent syllabusContent = db.SyllabusContents.Include(s => s.Syllabus).FirstOrDefault(s => s.Id == id);
             db.SyllabusContents.Remove(syllabusContent);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Syllabus", new { id = syllabusContent.Syllabus.Id });
         }
 
         protected override void Dispose(bool disposing)
