@@ -334,6 +334,7 @@
     <Content Include="Views\SyllabusContents\Edit.cshtml" />
     <Content Include="Views\SyllabusContents\Index.cshtml" />
     <Content Include="Views\Lecturers\AddSubject.cshtml" />
+    <Content Include="Views\Subjects\_DeletePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

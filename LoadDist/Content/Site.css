@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.details-title, .details-name {
+    display: inline;
+}
+
+.details-container {
+    padding-top: 5%;
+}

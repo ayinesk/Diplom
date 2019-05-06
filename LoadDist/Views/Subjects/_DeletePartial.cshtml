@@ -1,0 +1,13 @@
+﻿@model LoadDist.Models.DataModels.Subject
+
+<h3>Вы уверены что хотите удалить этот предмет?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" />
+        </div>
+    }
+</div>

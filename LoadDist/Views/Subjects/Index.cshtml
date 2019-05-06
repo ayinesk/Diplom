@@ -4,19 +4,18 @@
     ViewBag.Title = "Предметы";
 }
 
+<script>
+    function showDeleteConfirmationModal() {
+        $('#deleteModalLink').modal()
+    }
+</script>
+
 <h2>Предметы</h2>
 
 <p>
     @Html.ActionLink("Добавить", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
-
+<table class="table">    
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -29,5 +28,5 @@
         </td>
     </tr>
 }
-
 </table>
+
