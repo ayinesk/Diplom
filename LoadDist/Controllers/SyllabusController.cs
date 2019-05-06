@@ -19,7 +19,7 @@ namespace LoadDist.Controllers
         // GET: Syllabus
         public async Task<ActionResult> Index()
         {
-            return View(await db.Syllabi.ToListAsync());
+            return View(await db.Syllabi.Include(s => s.Specialty).ToListAsync());
         }
 
         // GET: Syllabus/Details/5
@@ -29,7 +29,8 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Syllabus syllabus = await db.Syllabi.FindAsync(id);
+            ViewBag.SyllabusContents = db.SyllabusContents.Where(sc => sc.Syllabus.Id == id).ToList();
+            Syllabus syllabus = db.Syllabi.Include(s => s.Specialty).FirstOrDefault(s => s.Id == id);
             if (syllabus == null)
             {
                 return HttpNotFound();
@@ -40,6 +41,7 @@ namespace LoadDist.Controllers
         // GET: Syllabus/Create
         public ActionResult Create()
         {
+            ViewBag.Specialties = new SelectList(db.Specialties, "Id", "Name");
             return View();
         }
 
@@ -48,10 +50,11 @@ namespace LoadDist.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,AdmissionYear")] Syllabus syllabus)
+        public async Task<ActionResult> Create(Syllabus syllabus)
         {
             if (ModelState.IsValid)
             {
+                syllabus.Specialty = db.Specialties.Find(syllabus.Specialty.Id);
                 db.Syllabi.Add(syllabus);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

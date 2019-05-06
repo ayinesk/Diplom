@@ -15,6 +15,16 @@ namespace LoadDist.Migrations
                         Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
+            CreateTable(
+                "dbo.Lecturers",
+                c => new
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Name = c.String(),
+                    Surname = c.String(),
+                    Patronymic = c.String()
+                })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.SubjectLecturers",

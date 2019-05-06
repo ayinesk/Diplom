@@ -1,0 +1,62 @@
+﻿@model IEnumerable<LoadDist.Models.DataModels.SyllabusContent>
+
+<p>
+    @Html.ActionLink("Добавить", "Create", "SyllabusContents", new { syllabusId = ViewData["id"]}, null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Семестр
+        </th>
+        <th>
+            Предмет
+        </th>
+        <th>
+            Лекции
+        </th>
+        <th>
+            Лабораторные работы
+        </th>
+        <th>
+            Практические занятия
+        </th>
+        <th>
+            Экзамен
+        </th>
+        <th>
+            Зачёт
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Term)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LectureHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LabsHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PracticalHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestHours)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
