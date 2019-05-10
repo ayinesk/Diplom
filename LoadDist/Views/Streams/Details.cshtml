@@ -1,17 +1,16 @@
-﻿@model LoadDist.Models.DataModels.Stream
+﻿@using LoadDist.Models.DataModels
+@model LoadDist.Models.DataModels.Stream
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Поток";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Stream</h4>
+    <h4>Поток</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            Название потока
         </dt>
 
         <dd>
@@ -19,8 +18,12 @@
         </dd>
 
     </dl>
+    @{
+        List<Group> groups = Model.Groups;
+        Html.RenderPartial("_Groups", groups, new ViewDataDictionary { { "id", Model.Id } });
+     }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Вернуться к списку", "Index")
 </p>

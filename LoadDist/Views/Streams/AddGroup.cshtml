@@ -1,7 +1,7 @@
-﻿@model LoadDist.Models.ViewModels.AddSubjectViewModel
+﻿@model LoadDist.Models.ViewModels.AddGroupViewModel
 
 @{
-    ViewBag.Title = "Преподаватель. Добавление предмета";
+    ViewBag.Title = "Поток. Добавление группы";
 }
 
 @using (Html.BeginForm())
@@ -9,14 +9,14 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal details-container">
-        <h4>Добавить предмет</h4>
+        <h4>Добавить группу</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.LecturerId)
+        @Html.HiddenFor(model => model.StreamId)
         <div class="form-group">
             @Html.Label("Предметы", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SubjectId, ViewBag.Subjects as SelectList)
+                @Html.DropDownListFor(model => model.GroupId, ViewBag.Groups as SelectList)
             </div>
         </div>
 

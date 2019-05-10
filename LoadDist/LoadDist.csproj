@@ -206,7 +206,7 @@
       <DependentUpon>201904141329251_AddTablesAndRows.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DataModels\CourseWork.cs" />
     <Compile Include="Models\DataModels\Group.cs" />
     <Compile Include="Models\DataModels\Lecturer.cs" />
@@ -218,7 +218,8 @@
     <Compile Include="Models\DataModels\Subject.cs" />
     <Compile Include="Models\DataModels\Syllabus.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\AddGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\AddSubjectViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -335,6 +336,8 @@
     <Content Include="Views\SyllabusContents\Index.cshtml" />
     <Content Include="Views\Lecturers\AddSubject.cshtml" />
     <Content Include="Views\Syllabus\_SyllabusContents.cshtml" />
+    <Content Include="Views\Streams\_Groups.cshtml" />
+    <Content Include="Views\Streams\AddGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
