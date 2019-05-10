@@ -40,6 +40,16 @@ namespace LoadDist.Controllers
         // GET: Groups/Create
         public ActionResult Create()
         {
+            var syllabi = db.Syllabi.Include(s => s.Specialty);
+            var syllabiSelectList = new List<object>();
+            foreach (Syllabus syllabus in syllabi)
+            {
+                syllabiSelectList.Add(new {
+                    id = syllabus.Id,
+                    displayValue = $"{syllabus.Specialty.Name} ({syllabus.AdmissionYear})"
+                });
+            }
+            ViewBag.Syllabi = new SelectList(syllabiSelectList, "id", "displayValue");
             return View();
         }
 
@@ -48,10 +58,11 @@ namespace LoadDist.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,GroupNumber,StudentsCount,SubgroupsCount")] Group group)
+        public async Task<ActionResult> Create(Group group)
         {
             if (ModelState.IsValid)
             {
+                group.Syllabus = db.Syllabi.Find(group.Syllabus.Id);
                 db.Groups.Add(group);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

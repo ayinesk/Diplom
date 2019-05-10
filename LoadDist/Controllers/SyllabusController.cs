@@ -29,7 +29,7 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.SyllabusContents = db.SyllabusContents.Where(sc => sc.Syllabus.Id == id).ToList();
+            ViewBag.SyllabusContents = db.SyllabusContents.Include(sc => sc.Subject).Where(sc => sc.Syllabus.Id == id).ToList();
             Syllabus syllabus = db.Syllabi.Include(s => s.Specialty).FirstOrDefault(s => s.Id == id);
             if (syllabus == null)
             {

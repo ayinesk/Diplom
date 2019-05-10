@@ -54,6 +54,8 @@ namespace LoadDist.Controllers
         {
             if (ModelState.IsValid)
             {
+                syllabusContent.Subject = db.Subjects.Find(syllabusContent.Subject.Id);
+                syllabusContent.Syllabus = db.Syllabi.Find(syllabusContent.Syllabus.Id);
                 db.SyllabusContents.Add(syllabusContent);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -69,7 +71,10 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SyllabusContent syllabusContent = await db.SyllabusContents.FindAsync(id);
+            ViewBag.Subjects = new SelectList(db.Subjects, "Id", "Name");
+            SyllabusContent syllabusContent = await db.SyllabusContents
+                .Include(sc => sc.Syllabus).Include(sc => sc.Subject)
+                .FirstOrDefaultAsync(sc => sc.Id == id);
             if (syllabusContent == null)
             {
                 return HttpNotFound();
@@ -82,13 +87,13 @@ namespace LoadDist.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,LectureHours,LabsHours,PracticalHours,ExamHours,TestHours,Term")] SyllabusContent syllabusContent)
+        public async Task<ActionResult> Edit(SyllabusContent syllabusContent)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(syllabusContent).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Syllabus", new { id = syllabusContent.Syllabus.Id });
             }
             return View(syllabusContent);
         }
@@ -100,7 +105,7 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SyllabusContent syllabusContent = await db.SyllabusContents.FindAsync(id);
+            SyllabusContent syllabusContent = db.SyllabusContents.Include(s => s.Syllabus).FirstOrDefault(s => s.Id == id);
             if (syllabusContent == null)
             {
                 return HttpNotFound();

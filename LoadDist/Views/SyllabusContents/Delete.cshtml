@@ -14,7 +14,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Удалить" class="btn btn-default" /> |
-            @Html.ActionLink("Вернуться к списку", "Index")
+            @Html.ActionLink("Вернуться к списку", "Details", "Syllabus", new { id = Model.Syllabus.Id}, null)
         </div>
     }
 </div>

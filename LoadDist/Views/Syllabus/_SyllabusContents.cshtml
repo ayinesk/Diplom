@@ -53,8 +53,8 @@
             @Html.DisplayFor(modelItem => item.TestHours)
         </td>
         <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+            @Html.ActionLink("Редактировать", "Edit", "SyllabusContents", new { id=item.Id }, null) |
+            @Html.ActionLink("Удалить", "Delete", "SyllabusContents", new { id=item.Id }, null)
         </td>
     </tr>
 }
