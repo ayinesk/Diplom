@@ -1,18 +1,12 @@
 ﻿@model IEnumerable<LoadDist.Models.DataModels.Group>
 
-@{
-    ViewBag.Title = "Группы";
-}
-
-<h2>Группы</h2>
-
 <p>
-    @Html.ActionLink("Создать", "Create")
+    @Html.ActionLink("Добавить", "AddGroup", new { id = ViewData["id"]}, null)
 </p>
 <table class="table">
     <tr>
         <th>
-            Номер группы
+           Номер группы
         </th>
         <th>
             Количество студентов
@@ -20,7 +14,6 @@
         <th>
             Количество подгрупп
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -34,11 +27,6 @@
         <td>
             @Html.DisplayFor(modelItem => item.SubgroupsCount)
         </td>
-        <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
-        </td>
     </tr>
 }
-
 </table>

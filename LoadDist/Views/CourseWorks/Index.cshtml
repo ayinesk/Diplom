@@ -1,18 +1,21 @@
 ﻿@model IEnumerable<LoadDist.Models.DataModels.CourseWork>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Курсовые работы";
 }
 
-<h2>Index</h2>
+<h2>Курсовые работы</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Создать", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CourseWorkHours)
+            Предмет
+        </th>
+        <th>
+            Количество часов
         </th>
         <th></th>
     </tr>
@@ -20,12 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Subject.Name)
+       <td>
             @Html.DisplayFor(modelItem => item.CourseWorkHours)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

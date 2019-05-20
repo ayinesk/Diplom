@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LoadDist.Models;
 using LoadDist.Models.DataModels;
+using LoadDist.Models.ViewModels;
 
 namespace LoadDist.Controllers
 {
@@ -29,7 +30,7 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stream stream = await db.Streams.FindAsync(id);
+            Stream stream = await db.Streams.Include(s => s.Groups).FirstOrDefaultAsync(s => s.Id == id);
             if (stream == null)
             {
                 return HttpNotFound();
@@ -115,6 +116,39 @@ namespace LoadDist.Controllers
             db.Streams.Remove(stream);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // GET: Lecturers/Create
+        public ActionResult AddGroup(int? id)
+        {
+            Stream stream = db.Streams.Include(s => s.Groups).SingleOrDefault(s => s.Id == id);
+            var allGroups = db.Groups.ToList();
+            var groupsToAdd = allGroups.Except(stream.Groups);
+            SelectList groups = new SelectList(groupsToAdd, "Id", "GroupNumber");
+            ViewBag.Groups = groups;
+            return View(new AddGroupViewModel { StreamId = stream.Id });
+        }
+
+        // POST: Lecturers/Create
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddGroup(AddGroupViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Stream thisStream = db.Streams.Find(model.StreamId);
+                Group thisGroup = db.Groups.Find(model.GroupId);
+                if (thisStream.Groups != null)
+                {
+                    thisStream.Groups.Add(thisGroup);
+                }
+                thisStream.Groups = new List<Group> { thisGroup };
+                await db.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = thisStream.Id });
+            }
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

@@ -19,7 +19,8 @@ namespace LoadDist.Controllers
         // GET: CourseWorks
         public async Task<ActionResult> Index()
         {
-            return View(await db.CourseWorks.ToListAsync());
+            var courseWorks = await db.CourseWorks.Include(cw => cw.Subject).ToListAsync();
+            return View(courseWorks);
         }
 
         // GET: CourseWorks/Details/5
@@ -29,7 +30,7 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CourseWork courseWork = await db.CourseWorks.FindAsync(id);
+            CourseWork courseWork = await db.CourseWorks.Include(cw => cw.Subject).FirstOrDefaultAsync(cw => cw.Id == id);
             if (courseWork == null)
             {
                 return HttpNotFound();
@@ -40,6 +41,8 @@ namespace LoadDist.Controllers
         // GET: CourseWorks/Create
         public ActionResult Create()
         {
+            var subjects = db.Subjects;
+            ViewBag.Subjects = new SelectList(subjects, "Id", "Name");
             return View();
         }
 
@@ -48,10 +51,11 @@ namespace LoadDist.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CourseWorkHours")] CourseWork courseWork)
+        public async Task<ActionResult> Create(CourseWork courseWork)
         {
             if (ModelState.IsValid)
             {
+                courseWork.Subject = await db.Subjects.FindAsync(courseWork.Subject.Id);
                 db.CourseWorks.Add(courseWork);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -67,7 +71,7 @@ namespace LoadDist.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CourseWork courseWork = await db.CourseWorks.FindAsync(id);
+            CourseWork courseWork = await db.CourseWorks.Include(cw => cw.Subject).FirstOrDefaultAsync(cw => cw.Id ==id);
             if (courseWork == null)
             {
                 return HttpNotFound();
@@ -80,7 +84,7 @@ namespace LoadDist.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CourseWorkHours")] CourseWork courseWork)
+        public async Task<ActionResult> Edit(CourseWork courseWork)
         {
             if (ModelState.IsValid)
             {
