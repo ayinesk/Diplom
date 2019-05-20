@@ -16,7 +16,7 @@ namespace LoadDist
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Loads", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

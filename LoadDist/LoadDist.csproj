@@ -205,6 +205,10 @@
     <Compile Include="Migrations\201904141329251_AddTablesAndRows.Designer.cs">
       <DependentUpon>201904141329251_AddTablesAndRows.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905201841432_ChangeLoadModel.cs" />
+    <Compile Include="Migrations\201905201841432_ChangeLoadModel.Designer.cs">
+      <DependentUpon>201905201841432_ChangeLoadModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataModels\CourseWork.cs" />
@@ -366,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904141329251_AddTablesAndRows.resx">
       <DependentUpon>201904141329251_AddTablesAndRows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905201841432_ChangeLoadModel.resx">
+      <DependentUpon>201905201841432_ChangeLoadModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
