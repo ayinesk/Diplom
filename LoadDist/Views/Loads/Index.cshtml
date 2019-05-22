@@ -1,7 +1,51 @@
-﻿@model IEnumerable<LoadDist.Models.DataModels.Load>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
+<style>
+    .col-md-10 {
+        float: right;
+    }
+    .form-control {
+        width: 100px;
+    }
+    .form-horizontal .form-group {
+        margin-right: 15px;
+        margin-left: -15px;
+        display: inline-flex;
+    }
+    .label {
+        width: fit-content;
+    }
+</style>
+
+<h2></h2>
+
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("LoadsSearch", new AjaxOptions { UpdateTargetId = "dataTable" }))
+    {
+        <div class="form-group">
+            @Html.Label("Год", new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            <div class="col-md-10">
+                <input type="text" name="year" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            <div class="col-md-10">
+                <input type="text" name="term" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Поиск" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>
+
+<div id="dataTable"></div>
+
+@Scripts.Render("~/scripts/jquery-3.3.1.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 

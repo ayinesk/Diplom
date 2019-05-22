@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LoadDist.Models;
 using LoadDist.Models.DataModels;
+using LoadDist.Models.ViewModels;
 
 namespace LoadDist.Controllers
 {
@@ -19,7 +20,37 @@ namespace LoadDist.Controllers
         // GET: Loads
         public async Task<ActionResult> Index()
         {
-            return View(await db.Loads.ToListAsync());
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult LoadsSearch(int term, int year)
+        {
+            var loadsGroups = db.Loads
+                .Where(l => l.Term == term && l.Year == year)
+                .Include(l => l.Subject)
+                .Include(l => l.Lecturer)
+                .Include(l => l.Group)
+                .Include(l => l.Stream)
+                .Include(l => l.SyllabusContent)
+                .GroupBy(l => l.Lecturer);
+            var loadsModels = new List<LoadsViewModel>();
+            foreach (IGrouping<Lecturer, Load> group in loadsGroups)
+            {
+                loadsModels.Add(new LoadsViewModel
+                {
+                    Lecturer = group.Key,
+                    LecturerLoads = group.ToList(),
+                    Term = term,
+                    Year = year,
+                    TotalExamHours = group.Sum(l => l.ExamHours),
+                    TotalLabsHours = group.Sum(l => l.LabsHours),
+                    TotalLectureHours = group.Sum(l => l.LectureHours),
+                    TotalPracticalHours = group.Sum(l => l.PracticalHours),
+                    TotalTestHours = group.Sum(l => l.TestHours)
+                });
+            }
+            return PartialView("_LoadsTable", loadsModels); ;
         }
 
         // GET: Loads/Details/5

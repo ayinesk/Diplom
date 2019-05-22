@@ -10,6 +10,8 @@ namespace LoadDist.Models.DataModels
         public int Id { get; set; }
         public Lecturer Lecturer { get; set; }
         public Subject Subject { get; set; }
+        public Group Group { get; set; }
+        public Stream Stream { get; set; }
         public SyllabusContent SyllabusContent { get; set; }
         public int LectureHours { get; set; }
         public int LabsHours { get; set; }

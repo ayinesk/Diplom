@@ -1,0 +1,58 @@
+﻿@model IEnumerable<LoadDist.Models.ViewModels.LoadsViewModel>
+<style>
+    .table-wrapper-scroll-y {
+        display: block;
+        position: relative;
+        height: 200px;
+        overflow: auto;
+    }
+</style>
+
+<div class="table-wrapper-scroll-y">
+    <table id="Loads" class="table table-bordered table-hover" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Преподаватель</th>
+                <th>Семестр</th>
+                <th>Год</th>
+                <th>Лекции</th>
+                <th>Лабораторные работы</th>
+                <th>Практические занятия</th>
+                <th>Экзамен</th>
+                <th>Зачёт</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var load in Model)
+            {
+                <tr>
+                    <td></td>
+                    <td>@string.Format($"{load.Lecturer.Surname} {load.Lecturer.Name} {load.Lecturer.Patronymic}")</td>
+                    <td>@load.Term</td>
+                    <td>@load.Year</td>
+                    <td>@load.TotalLectureHours</td>
+                    <td>@load.TotalLabsHours</td>
+                    <td>@load.TotalPracticalHours</td>
+                    <td>@load.TotalExamHours</td>
+                    <td>@load.TotalTestHours</td>
+                </tr>
+                foreach (var loadItem in load.LecturerLoads)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@loadItem.Subject.Name</td>
+                        <td>@loadItem.Stream.Title</td>
+                        <td>@loadItem.Group.GroupNumber</td>
+                        <td>@loadItem.LectureHours</td>
+                        <td>@loadItem.LabsHours</td>
+                        <td>@loadItem.PracticalHours</td>
+                        <td>@loadItem.ExamHours</td>
+                        <td>@loadItem.TestHours</td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+</div>

@@ -209,6 +209,10 @@
     <Compile Include="Migrations\201905201841432_ChangeLoadModel.Designer.cs">
       <DependentUpon>201905201841432_ChangeLoadModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905221758596_AddNewLoadProperties.cs" />
+    <Compile Include="Migrations\201905221758596_AddNewLoadProperties.Designer.cs">
+      <DependentUpon>201905221758596_AddNewLoadProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DataModels\CourseWork.cs" />
@@ -222,6 +226,7 @@
     <Compile Include="Models\DataModels\Subject.cs" />
     <Compile Include="Models\DataModels\Syllabus.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewModels\LoadsViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\AddGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\AddSubjectViewModel.cs" />
@@ -245,6 +250,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -342,6 +349,7 @@
     <Content Include="Views\Syllabus\_SyllabusContents.cshtml" />
     <Content Include="Views\Streams\_Groups.cshtml" />
     <Content Include="Views\Streams\AddGroup.cshtml" />
+    <Content Include="Views\Loads\_LoadsTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -376,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905201841432_ChangeLoadModel.resx">
       <DependentUpon>201905201841432_ChangeLoadModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905221758596_AddNewLoadProperties.resx">
+      <DependentUpon>201905221758596_AddNewLoadProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
