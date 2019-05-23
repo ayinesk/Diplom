@@ -1,51 +1,163 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model LoadDist.Models.DataModels.Load
+
+@{
+    ViewBag.Title = "Распределение нагрузки";
+    ViewBag.Year = DateTime.Now.Year;
+    ViewBag.Term = DateTime.Now.Month < 6 ? 1 : 2;
 }
 
-<style>
-    .col-md-10 {
-        float: right;
-    }
-    .form-control {
-        width: 100px;
-    }
-    .form-horizontal .form-group {
-        margin-right: 15px;
-        margin-left: -15px;
-        display: inline-flex;
-    }
-    .label {
-        width: fit-content;
-    }
-</style>
+    <style>
+        .dateSelector .col-md-10 {
+            float: right;
+        }
 
-<h2></h2>
+        .dateSelector .form-control {
+            width: 100px;
+        }
 
-<div class="form-horizontal">
-    @using (Ajax.BeginForm("LoadsSearch", new AjaxOptions { UpdateTargetId = "dataTable" }))
-    {
-        <div class="form-group">
-            @Html.Label("Год", new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            <div class="col-md-10">
-                <input type="text" name="year" class="form-control" />
+        .dateSelector .form-group {
+            margin-right: 15px;
+            margin-left: -15px;
+            display: inline-flex;
+        }
+
+        .dateSelector .label {
+            width: fit-content;
+        }
+
+        .addLoadForm .col-md-10 {
+            float: right;
+        }
+
+        .numberInput {
+            width: 100px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            $('#searchButton').click();
+        };
+    </script>
+
+    <h2></h2>
+
+    <div class="form-horizontal dateSelector">
+        @using (Ajax.BeginForm("LoadsSearch", new AjaxOptions { UpdateTargetId = "dataTable" }))
+        {
+            <div class="form-group">
+                @Html.Label("Год", new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                <div class="col-md-10">
+                    <input type="number" name="year" class="form-control" value="@ViewBag.Year" />
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label col-md-2" } })
+                <div class="col-md-10">
+                    <input type="number" name="term" class="form-control" value="@ViewBag.Term" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Поиск" id="searchButton" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="dataTable"></div>
+
+    <div class="form-horizontal addLoadForm">
+        <h3>Добавить нагузку</h3>
+        <h3></h3>
+        @using (Ajax.BeginForm("Create", new AjaxOptions { UpdateTargetId = "dataTable" }))
+        {
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Год", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="year" class="form-control numberInput" value="@ViewBag.Year" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="term" class="form-control numberInput" value="@ViewBag.Term" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Преподаватель", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownList("lecturerId", ViewBag.Lecturers as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Поток", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownList("streamId", ViewBag.Streams as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Группа", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownList("groupId", ViewBag.Groups as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Предмет", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownList("subjectId", ViewBag.Subjects as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Элемент учебного плана", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownList("syllabusContentId", ViewBag.SyllabusContent as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Лекции", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="lections" class="form-control numberInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Лабораторные работы", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="labs" class="form-control numberInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Практичские занятия", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="practicals" class="form-control numberInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Экзамен", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="exam" class="form-control numberInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Зачёт", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        <input type="number" name="test" class="form-control numberInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="submit" value="Добавить" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label col-md-2" } })
-            <div class="col-md-10">
-                <input type="text" name="term" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Поиск" class="btn btn-default" />
-            </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-<div id="dataTable"></div>
 
-@Scripts.Render("~/scripts/jquery-3.3.1.min.js")
-@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/scripts/jquery-3.3.1.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 

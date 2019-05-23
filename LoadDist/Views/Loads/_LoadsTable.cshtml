@@ -7,6 +7,22 @@
         overflow: auto;
     }
 </style>
+<script>
+    function showChildRows(id) {
+        debugger;
+        var childRows = $('tr[id^="' + id + '+"]');
+        for (var i = 0; i < childRows.length; i++) {
+            if (childRows[i].className == "active") {
+                childRows[i].style.display = "none";
+                childRows[i].className = "";                
+            }
+            else {
+                childRows[i].style.display = "table-row";
+                childRows[i].className = "active";
+            }
+        }
+    }
+</script>
 
 <div class="table-wrapper-scroll-y">
     <table id="Loads" class="table table-bordered table-hover" style="width:100%">
@@ -24,10 +40,13 @@
             </tr>
         </thead>
         <tbody>
+            @{ 
+                var counter = 0;
+            }
             @foreach (var load in Model)
             {
-                <tr>
-                    <td></td>
+                <tr id="@counter">
+                    <td><button type="button" id="showChildRowsButton_@counter" onclick="showChildRows(@counter)" class="btn">+</button></td>
                     <td>@string.Format($"{load.Lecturer.Surname} {load.Lecturer.Name} {load.Lecturer.Patronymic}")</td>
                     <td>@load.Term</td>
                     <td>@load.Year</td>
@@ -36,10 +55,10 @@
                     <td>@load.TotalPracticalHours</td>
                     <td>@load.TotalExamHours</td>
                     <td>@load.TotalTestHours</td>
-                </tr>
+                </tr>                
                 foreach (var loadItem in load.LecturerLoads)
                 {
-                    <tr>
+                    <tr id="@counter+@loadItem.Id" style="display:none;">
                         <td></td>
                         <td>@loadItem.Subject.Name</td>
                         <td>@loadItem.Stream.Title</td>
@@ -51,7 +70,7 @@
                         <td>@loadItem.TestHours</td>
                     </tr>
                 }
-
+                counter++;
             }
         </tbody>
     </table>

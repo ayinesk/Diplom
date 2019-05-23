@@ -20,6 +20,33 @@ namespace LoadDist.Controllers
         // GET: Loads
         public async Task<ActionResult> Index()
         {
+            var lecturersSelectList = new List<object>();
+            foreach (var lecturer in db.Lecturers.ToList())
+            {
+                lecturersSelectList.Add(new
+                {
+                    id = lecturer.Id,
+                    displayValue = $"{lecturer.Surname} {lecturer.Name} {lecturer.Patronymic}"
+                });
+            }
+            ViewBag.Lecturers = new SelectList(lecturersSelectList, "id", "displayValue");
+            ViewBag.Streams = new SelectList(db.Streams, "Id", "Title");
+            ViewBag.Groups = new SelectList(db.Groups, "Id", "GroupNumber");            
+            ViewBag.Subjects = new SelectList(db.Subjects, "Id", "Name");
+            var syllabusContentsSelectList = new List<object>();
+            var syllabusContents = db.SyllabusContents
+                .Include(sc => sc.Syllabus)
+                .Include(sc => sc.Syllabus.Specialty)
+                .Include(sc => sc.Subject).ToList();
+            foreach (var sContent in syllabusContents)
+            {
+                syllabusContentsSelectList.Add(new
+                {
+                    id = sContent.Id,
+                    displayValue = $"{sContent.Syllabus.Specialty.Name} ({sContent.Syllabus.AdmissionYear}) {sContent.Subject.Name}"
+                });
+            }
+            ViewBag.SyllabusContent = new SelectList(syllabusContentsSelectList, "id", "displayValue");
             return View();
         }
 
@@ -27,12 +54,13 @@ namespace LoadDist.Controllers
         public ActionResult LoadsSearch(int term, int year)
         {
             var loadsGroups = db.Loads
-                .Where(l => l.Term == term && l.Year == year)
                 .Include(l => l.Subject)
                 .Include(l => l.Lecturer)
                 .Include(l => l.Group)
                 .Include(l => l.Stream)
                 .Include(l => l.SyllabusContent)
+                .Where(l => l.Term == term && l.Year == year)
+                .AsEnumerable()
                 .GroupBy(l => l.Lecturer);
             var loadsModels = new List<LoadsViewModel>();
             foreach (IGrouping<Lecturer, Load> group in loadsGroups)
@@ -68,24 +96,34 @@ namespace LoadDist.Controllers
             return View(load);
         }
 
-        // GET: Loads/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Loads/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,StreamsCount,SubgroupsCount")] Load load)
+        public async Task<ActionResult> Create(int year, int term, int lecturerId, 
+            int streamId, int groupId, int subjectId, int syllabusContentId, int lections,
+            int labs, int practicals, int exam, int test)
         {
+            var load = new Load
+            {
+                Year = year,
+                Term = term,
+                Lecturer = db.Lecturers.Find(lecturerId),
+                Stream = db.Streams.Find(streamId),
+                Group = db.Groups.Find(groupId),
+                Subject = db.Subjects.Find(subjectId),
+                SyllabusContent = db.SyllabusContents.Find(syllabusContentId),
+                LectureHours = lections,
+                LabsHours = labs,
+                PracticalHours = practicals,
+                ExamHours = exam,
+                TestHours = test
+            };
             if (ModelState.IsValid)
             {
                 db.Loads.Add(load);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("LoadsSearch", new { term, year});
             }
 
             return View(load);
