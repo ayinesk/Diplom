@@ -8,6 +8,16 @@ namespace LoadDist.Models.ViewModels
 {
     public class LoadsViewModel
     {
+        public int TotalHours
+        {
+            get
+            {
+                return TotalLectureHours + TotalLabsHours +
+                    TotalPracticalHours + TotalExamHours +
+                    TotalTestHours + TotalConsultationHours;
+            }
+        }
+        public int TotalConsultationHours { get; set; }
         public int TotalLectureHours { get; set; }
         public int TotalLabsHours { get; set; }
         public int TotalPracticalHours { get; set; }

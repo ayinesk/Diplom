@@ -20,5 +20,6 @@ namespace LoadDist.Models.DataModels
         public int TestHours { get; set; }
         public int Year { get; set; }
         public int Term { get; set; }
+        public int Consultation { get; set; }
     }
 }

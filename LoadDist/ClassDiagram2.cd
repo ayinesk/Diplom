@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="LoadDist.Models.DataModels.CourseWork">
+    <Position X="1.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataModels\CourseWork.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Subject" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Group">
+    <Position X="4" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAABAAAAAAAAAAAAAAgCAAAAIAAA=</HashCode>
+      <FileName>Models\DataModels\Group.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Syllabus" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Lecturer">
+    <Position X="1.25" Y="4.75" Width="2" />
+    <AssociationLine Name="Subjects" Type="LoadDist.Models.DataModels.Subject">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.707" Y="0.46" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAGAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataModels\Lecturer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Subjects" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Load">
+    <Position X="9.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGCGAABAgAASAAAIAAIAAAAAAIAAAAEAAAAAAAAAg=</HashCode>
+      <FileName>Models\DataModels\Load.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Group" />
+      <Property Name="Lecturer" />
+      <Property Name="Stream" />
+      <Property Name="Subject" />
+      <Property Name="SyllabusContent" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Specialty">
+    <Position X="7.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Models\DataModels\Specialty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Standard">
+    <Position X="6.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataModels\Standard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Stream">
+    <Position X="4.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataModels\Stream.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Groups" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Subject">
+    <Position X="1.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataModels\Subject.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Lecturers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.Syllabus">
+    <Position X="7" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAgAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataModels\Syllabus.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Specialty" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="LoadDist.Models.DataModels.SyllabusContent">
+    <Position X="11.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAGCAAAAAgAAQAAAIAAAAAAAAAAAAAAEAAAAAAIAAg=</HashCode>
+      <FileName>Models\DataModels\SyllabusContent.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Subject" />
+      <Property Name="Syllabus" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

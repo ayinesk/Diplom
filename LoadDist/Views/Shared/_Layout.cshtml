@@ -19,7 +19,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Распределение нагрузки", "Index", "Loads", new { @class = "navbar-brand" })
+                @Html.ActionLink("Распределение нагрузки", "Index", controllerName:"Loads", htmlAttributes: new { @class = "navbar-brand" }, routeValues: null)
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

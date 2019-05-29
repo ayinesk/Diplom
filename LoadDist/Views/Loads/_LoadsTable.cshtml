@@ -3,29 +3,47 @@
     .table-wrapper-scroll-y {
         display: block;
         position: relative;
-        height: 200px;
+        height: 100%;
         overflow: auto;
     }
+
+    .active {
+        background-color: lightgray;
+    }
+
 </style>
 <script>
+    var selectedRows = [];
+
+    function rowClick(id) {
+        debugger;
+        var row = $('tr[id^="' + id + '"]')[0];
+        if ($(row).hasClass('active')) {
+            $(row).removeClass('active');
+        } else {
+            $(row).addClass('active').siblings().removeClass('active');
+            selectedRows.push($(row).find("#LoadItemId")[0].value);
+        }
+    }
+
     function showChildRows(id) {
         debugger;
         var childRows = $('tr[id^="' + id + '+"]');
         for (var i = 0; i < childRows.length; i++) {
-            if (childRows[i].className == "active") {
+            if ($(childRows[i]).hasClass("visible")) {
                 childRows[i].style.display = "none";
-                childRows[i].className = "";                
+                $(childRows[i]).removeClass('visible');               
             }
             else {
                 childRows[i].style.display = "table-row";
-                childRows[i].className = "active";
+                $(childRows[i]).addClass('visible');
             }
         }
     }
 </script>
 
 <div class="table-wrapper-scroll-y">
-    <table id="Loads" class="table table-bordered table-hover" style="width:100%">
+    <table id="Loads" class="table table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th></th>
@@ -36,7 +54,9 @@
                 <th>Лабораторные работы</th>
                 <th>Практические занятия</th>
                 <th>Экзамен</th>
+                <th>Консультация</th>
                 <th>Зачёт</th>
+                <th>Всего</th>
             </tr>
         </thead>
         <tbody>
@@ -54,21 +74,30 @@
                     <td>@load.TotalLabsHours</td>
                     <td>@load.TotalPracticalHours</td>
                     <td>@load.TotalExamHours</td>
+                    <td>@load.TotalConsultationHours</td>
                     <td>@load.TotalTestHours</td>
+                    <td>@load.TotalHours</td>
                 </tr>                
                 foreach (var loadItem in load.LecturerLoads)
                 {
-                    <tr id="@counter+@loadItem.Id" style="display:none;">
-                        <td></td>
-                        <td>@loadItem.Subject.Name</td>
-                        <td>@loadItem.Stream.Title</td>
-                        <td>@loadItem.Group.GroupNumber</td>
-                        <td>@loadItem.LectureHours</td>
-                        <td>@loadItem.LabsHours</td>
-                        <td>@loadItem.PracticalHours</td>
-                        <td>@loadItem.ExamHours</td>
-                        <td>@loadItem.TestHours</td>
-                    </tr>
+                <tr id="@counter+@loadItem.Id" style="display:none;" class="clickable-row" onclick="rowClick('@counter+'+'@loadItem.Id')">
+                    <td>@Html.Hidden("LoadItemId", loadItem.Id)</td>
+                    <td>@loadItem.Subject.Name</td>
+                    <td>@loadItem.Stream.Title</td>
+                    <td>@loadItem.Group.GroupNumber</td>
+                    <td>@loadItem.LectureHours</td>
+                    <td>@loadItem.LabsHours</td>
+                    <td>@loadItem.PracticalHours</td>
+                    <td>@loadItem.ExamHours</td>
+                    <td>@loadItem.Consultation</td>
+                    <td>@loadItem.TestHours</td>
+                    @{
+                        var total = loadItem.LectureHours + loadItem.LabsHours +
+                            loadItem.PracticalHours + loadItem.ExamHours +
+                            loadItem.TestHours + loadItem.Consultation;
+                    }
+                    <td>@total</td>
+                </tr>
                 }
                 counter++;
             }

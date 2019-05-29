@@ -1,42 +1,113 @@
 ﻿@model LoadDist.Models.DataModels.Load
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Добавление нагрузки";
 }
 
-<h2>Create</h2>
+<h2>Добавить нагрузку</h2>
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Load</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="form-group">
-            @Html.LabelFor(model => model.StreamsCount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StreamsCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StreamsCount, "", new { @class = "text-danger" })
+            @Html.Label("Преподаватель", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.DropDownListFor(model => model.Lecturer.Id, ViewBag.Lecturers as SelectList, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.SubgroupsCount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SubgroupsCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SubgroupsCount, "", new { @class = "text-danger" })
+            @Html.Label("Год", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.Term, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Поток", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.DropDownListFor(model => model.Stream.Id, ViewBag.Streams as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Группа", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.DropDownListFor(model => model.Group.Id, ViewBag.Groups as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Предмет", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.DropDownListFor(model => model.Subject.Id, ViewBag.Subjects as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Элемент учебного плана", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.DropDownListFor(model => model.SyllabusContent.Id, ViewBag.SyllabusContent as SelectList, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="form-group">
+            @Html.Label("Лекции", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.LectureHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LectureHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Лабораторные работы", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.LabsHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LabsHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Практичские занятия", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.PracticalHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PracticalHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Экзамен", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.ExamHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExamHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Зачёт", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.TestHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TestHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Консультации", new { htmlAttributes = new { @class = "control-label" } })
+            <div>
+                @Html.EditorFor(model => model.Consultation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Consultation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Добавить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</div>
 }
 
 <div>

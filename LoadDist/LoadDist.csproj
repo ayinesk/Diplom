@@ -213,6 +213,10 @@
     <Compile Include="Migrations\201905221758596_AddNewLoadProperties.Designer.cs">
       <DependentUpon>201905221758596_AddNewLoadProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905251450523_ChangeLoadModel1.cs" />
+    <Compile Include="Migrations\201905251450523_ChangeLoadModel1.Designer.cs">
+      <DependentUpon>201905251450523_ChangeLoadModel1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DataModels\CourseWork.cs" />
@@ -387,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905221758596_AddNewLoadProperties.resx">
       <DependentUpon>201905221758596_AddNewLoadProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905251450523_ChangeLoadModel1.resx">
+      <DependentUpon>201905251450523_ChangeLoadModel1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
