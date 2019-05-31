@@ -10,17 +10,48 @@ using System.Web.Mvc;
 using LoadDist.Models;
 using LoadDist.Models.DataModels;
 using LoadDist.Models.ViewModels;
+using Microsoft.Reporting.WebForms;
+using ReportViewerForMvc;
+using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data.SqlClient;
+using LoadDist.Reports;
 
 namespace LoadDist.Controllers
 {
     public class LecturersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        LecturerReportDataSet ds = new LecturerReportDataSet();
 
         // GET: Lecturers
         public async Task<ActionResult> Index()
         {
             return View(await db.Lecturers.ToListAsync());
+        }
+
+        public ActionResult GenerateReport()
+        {
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.Width = Unit.Percentage(1000);
+            reportViewer.Height = Unit.Percentage(1000);
+
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+
+            SqlConnection conx = new SqlConnection(connectionString);
+            SqlDataAdapter adp = new SqlDataAdapter("SELECT * FROM Lecturers", conx);
+
+            adp.Fill(ds, ds.Lecturers.TableName);
+
+            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LecturerReport.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("LecturerReportDataSet", ds.Tables[0]));
+
+            ViewBag.ReportViewer = reportViewer;
+
+            return View();
         }
 
         // GET: Lecturers/Details/5
