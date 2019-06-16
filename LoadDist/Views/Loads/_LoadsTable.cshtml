@@ -16,7 +16,6 @@
     var selectedRows = [];
 
     function rowClick(id) {
-        debugger;
         var row = $('tr[id^="' + id + '"]')[0];
         if ($(row).hasClass('active')) {
             $(row).removeClass('active');
@@ -27,7 +26,6 @@
     }
 
     function showChildRows(id) {
-        debugger;
         var childRows = $('tr[id^="' + id + '+"]');
         for (var i = 0; i < childRows.length; i++) {
             if ($(childRows[i]).hasClass("visible")) {

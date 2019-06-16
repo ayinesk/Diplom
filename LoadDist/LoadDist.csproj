@@ -232,6 +232,22 @@
     <Compile Include="Migrations\201905251450523_ChangeLoadModel1.Designer.cs">
       <DependentUpon>201905251450523_ChangeLoadModel1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906160557555_UpdateSyllabusContent.cs" />
+    <Compile Include="Migrations\201906160557555_UpdateSyllabusContent.Designer.cs">
+      <DependentUpon>201906160557555_UpdateSyllabusContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906161304049_Standards.cs" />
+    <Compile Include="Migrations\201906161304049_Standards.Designer.cs">
+      <DependentUpon>201906161304049_Standards.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906161310549_Standards_2.cs" />
+    <Compile Include="Migrations\201906161310549_Standards_2.Designer.cs">
+      <DependentUpon>201906161310549_Standards_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906161313289_Standards_3.cs" />
+    <Compile Include="Migrations\201906161313289_Standards_3.Designer.cs">
+      <DependentUpon>201906161313289_Standards_3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DataModels\CourseWork.cs" />
@@ -254,6 +270,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LecturerReportDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\LoadsReportDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoadsReportDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
@@ -280,6 +301,17 @@
     </None>
     <Content Include="Reports\LecturerReportDataSet.xss">
       <DependentUpon>LecturerReportDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reports\LoadsReportDataSet.xsc">
+      <DependentUpon>LoadsReportDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Reports\LoadsReportDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>LoadsReportDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reports\LoadsReportDataSet.xss">
+      <DependentUpon>LoadsReportDataSet.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -401,6 +433,7 @@
     <Content Include="Views\Streams\AddGroup.cshtml" />
     <Content Include="Views\Loads\_LoadsTable.cshtml" />
     <Content Include="Views\Lecturers\GenerateReport.cshtml" />
+    <Content Include="Views\Loads\GenerateReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -442,7 +475,20 @@
     <EmbeddedResource Include="Migrations\201905251450523_ChangeLoadModel1.resx">
       <DependentUpon>201905251450523_ChangeLoadModel1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906160557555_UpdateSyllabusContent.resx">
+      <DependentUpon>201906160557555_UpdateSyllabusContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906161304049_Standards.resx">
+      <DependentUpon>201906161304049_Standards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906161310549_Standards_2.resx">
+      <DependentUpon>201906161310549_Standards_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906161313289_Standards_3.resx">
+      <DependentUpon>201906161313289_Standards_3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\LecturerReport.rdlc" />
+    <EmbeddedResource Include="Reports\LoadsReport.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

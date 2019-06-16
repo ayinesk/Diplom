@@ -20,7 +20,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>0.37253cm</Top>
-        <Left>4.16137cm</Left>
+        <Left>10.97704cm</Left>
         <Height>1.0445cm</Height>
         <Width>7.3895cm</Width>
         <Style>
@@ -37,16 +37,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>1.40462cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>6.23062cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>5.70146cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>6.16712cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -322,9 +322,9 @@
         </TablixRowHierarchy>
         <DataSetName>LecturerReportDataSet</DataSetName>
         <Top>1.9812cm</Top>
-        <Left>2.51037cm</Left>
+        <Left>4.63295cm</Left>
         <Height>1.2cm</Height>
-        <Width>10cm</Width>
+        <Width>19.50383cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -333,10 +333,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2in</Height>
+    <Height>3in</Height>
     <Style />
   </Body>
-  <Width>6.5in</Width>
+  <Width>11.5in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>

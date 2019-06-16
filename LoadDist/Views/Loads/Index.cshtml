@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Распределение нагрузки";
     ViewBag.Year = DateTime.Now.Year;
-    ViewBag.Term = DateTime.Now.Month < 6 ? 1 : 2;
+    ViewBag.Term = DateTime.Now.Month < 7 ? 1 : 2;
 }
 
     <style>
@@ -34,6 +34,14 @@
         }
     </style>
     <script>
+        function onDeleteButtonClick() {
+            var value = $('.active')[0].children[0].children[0].value;
+            var data = { id: value };
+            $.get("/Loads/Delete/" + value, function (success) {
+                $('#searchButton').click();
+            });
+        }
+
         window.onload = function () {
             $('#searchButton').click();
         };
@@ -68,7 +76,12 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Удалить" onclick="" class="btn btn-default" />
+                    <input type="button" value="Удалить" onclick="onDeleteButtonClick()" class="btn btn-default" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Генерация отчёта" onclick="location.href='@Url.Action("GenerateReport", "Loads")'" class="btn btn-default" />
                 </div>
             </div>
         }

@@ -15,10 +15,12 @@ namespace LoadDist.Migrations
 
         protected override void Seed(LoadDist.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            context.Standards.AddOrUpdate(new Models.DataModels.Standard
+            {
+                ExamStandard = 0.2M,
+                ConsultationStandard = 0.2M,
+                TestStandard = 0.2M
+            });
         }
     }
 }

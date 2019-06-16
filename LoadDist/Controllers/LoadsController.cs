@@ -10,18 +10,70 @@ using System.Web.Mvc;
 using LoadDist.Models;
 using LoadDist.Models.DataModels;
 using LoadDist.Models.ViewModels;
+using System.Web.Script.Serialization;
+using Microsoft.Reporting.WebForms;
+using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data.SqlClient;
+using LoadDist.Reports;
 
 namespace LoadDist.Controllers
 {
     public class LoadsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        LoadsReportDataSet ds = new LoadsReportDataSet();
 
         // GET: Loads
         public async Task<ActionResult> Index()
-        {
-            
+        {            
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdateSylContentDDL(int lecturerId)
+        {
+            var selectedLecturer = db.Lecturers.Include(lect => lect.Subjects).FirstOrDefault(lect => lect.Id == lecturerId);
+            var subjects = db.Subjects.Include(subj => subj.Lecturers).ToList();
+            var lecturerSubjects = selectedLecturer.Subjects;
+            var syllabusContents = db.SyllabusContents
+                .Include(sc => sc.Syllabus)
+                .Include(sc => sc.Syllabus.Specialty)
+                .Include(sc => sc.Subject)
+                .ToList();
+            var sylContent = new List<SyllabusContent>();
+            foreach (var s in syllabusContents)
+            {
+                if (lecturerSubjects.Contains(s.Subject))
+                {
+                    sylContent.Add(s);
+                }
+            }
+            var options = sylContent.Select(sc => $"<option value='{sc.Id}'>" +
+                $"{sc.Syllabus.Specialty.Name} ({sc.Syllabus.AdmissionYear}) {sc.Subject.Name}" +
+                $"</option>");
+            return Content("<option> </option>" + String.Join("", options));
+        }
+
+        [HttpPost]
+        public ActionResult UpdateGroupDDL(int streamId)
+        {
+            var selectedStream = db.Streams.Include(str => str.Groups).FirstOrDefault(str =>str.Id == streamId);
+            var options = selectedStream.Groups.Select(g => $"<option value='{g.Id}'>{g.GroupNumber}</option>");
+            return Content(String.Join("", options));
+        }
+
+        [HttpPost]
+        public ActionResult UpdateHoursData(int scId, int groupId)
+        {
+            var selectedGroup = db.Groups.Find(groupId);
+            var selectedSc = db.SyllabusContents.Find(scId);
+            var standards = db.Standards.FirstOrDefault();
+            selectedSc.ExamHours = Convert.ToInt32(selectedSc.ExamHours * selectedGroup.StudentsCount * standards.ExamStandard);
+            selectedSc.TestHours = Convert.ToInt32(selectedSc.TestHours * selectedGroup.StudentsCount * standards.TestStandard);
+            selectedSc.Consultation = Convert.ToInt32(selectedSc.Consultation * selectedGroup.StudentsCount * standards.ConsultationStandard);
+            var json = new JavaScriptSerializer().Serialize(selectedSc);
+            return Json( json, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -35,7 +87,7 @@ namespace LoadDist.Controllers
                 .Include(l => l.SyllabusContent)
                 .Where(l => l.Term == term && l.Year == year)
                 .AsEnumerable()
-                .GroupBy(l => l.Lecturer);
+                .GroupBy(l => l.Lecturer).ToList();
             var loadsModels = new List<LoadsViewModel>();
             foreach (IGrouping<Lecturer, Load> group in loadsGroups)
             {
@@ -74,33 +126,15 @@ namespace LoadDist.Controllers
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            var lecturersSelectList = new List<object>();
-            foreach (var lecturer in db.Lecturers.ToList())
-            {
-                lecturersSelectList.Add(new
-                {
-                    id = lecturer.Id,
-                    displayValue = $"{lecturer.Surname} {lecturer.Name} {lecturer.Patronymic}"
-                });
-            }
-            ViewBag.Lecturers = new SelectList(lecturersSelectList, "id", "displayValue");
+            ViewBag.Lecturers = GetLecturersSL();
             ViewBag.Streams = new SelectList(db.Streams, "Id", "Title");
             ViewBag.Groups = new SelectList(db.Groups, "Id", "GroupNumber");
             ViewBag.Subjects = new SelectList(db.Subjects, "Id", "Name");
-            var syllabusContentsSelectList = new List<object>();
             var syllabusContents = db.SyllabusContents
                 .Include(sc => sc.Syllabus)
                 .Include(sc => sc.Syllabus.Specialty)
-                .Include(sc => sc.Subject).ToList();
-            foreach (var sContent in syllabusContents)
-            {
-                syllabusContentsSelectList.Add(new
-                {
-                    id = sContent.Id,
-                    displayValue = $"{sContent.Syllabus.Specialty.Name} ({sContent.Syllabus.AdmissionYear}) {sContent.Subject.Name}"
-                });
-            }
-            ViewBag.SyllabusContent = new SelectList(syllabusContentsSelectList, "id", "displayValue");
+                .Include(sc => sc.Subject).ToList();           
+            ViewBag.SyllabusContent = GetSyllabusContentsSL(syllabusContents);
             return View();
         }
 
@@ -114,9 +148,9 @@ namespace LoadDist.Controllers
             {
                 load.Lecturer = db.Lecturers.Find(load.Lecturer.Id);
                 load.Stream = db.Streams.Find(load.Stream.Id);
-                load.Group = db.Groups.Find(load.Group.Id);
-                load.Subject = db.Subjects.Find(load.Subject.Id);
+                load.Group = db.Groups.Find(load.Group.Id);                
                 load.SyllabusContent = db.SyllabusContents.Find(load.SyllabusContent.Id);
+                load.Subject = load.SyllabusContent.Subject;
                 db.Loads.Add(load);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -159,16 +193,10 @@ namespace LoadDist.Controllers
         // GET: Loads/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Load load = await db.Loads.FindAsync(id);
-            if (load == null)
-            {
-                return HttpNotFound();
-            }
-            return View(load);
+            db.Loads.Remove(load);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // POST: Loads/Delete/5
@@ -180,6 +208,58 @@ namespace LoadDist.Controllers
             db.Loads.Remove(load);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        private SelectList GetSyllabusContentsSL(List<SyllabusContent> syllabusContents)
+        {
+            var syllabusContentsSelectList = new List<object>();
+            foreach (var sContent in syllabusContents)
+            {
+                syllabusContentsSelectList.Add(new
+                {
+                    id = sContent.Id,
+                    displayValue = $"{sContent.Syllabus.Specialty.Name} ({sContent.Syllabus.AdmissionYear}) {sContent.Subject.Name}"
+                });
+            }
+            return new SelectList(syllabusContentsSelectList, "id", "displayValue"); ;
+        }
+
+        public ActionResult GenerateReport()
+        {
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.SizeToReportContent = true;
+            reportViewer.Width = Unit.Percentage(1000);
+            reportViewer.Height = Unit.Percentage(1000);
+
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+
+            SqlConnection conx = new SqlConnection(connectionString);
+            SqlDataAdapter adp = new SqlDataAdapter("SELECT * FROM LoadsView", conx);
+
+            adp.Fill(ds, ds.LoadsView.TableName);
+
+            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LoadsReport.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("LoadsReportDataSet", ds.Tables[0]));
+
+            ViewBag.ReportViewer = reportViewer;
+
+            return View();
+        }
+
+        private SelectList GetLecturersSL()
+        {
+            var lecturersSelectList = new List<object>();
+            foreach (var lecturer in db.Lecturers.ToList())
+            {
+                lecturersSelectList.Add(new
+                {
+                    id = lecturer.Id,
+                    displayValue = $"{lecturer.Surname} {lecturer.Name} {lecturer.Patronymic}"
+                });
+            }
+            return new SelectList(lecturersSelectList, "id", "displayValue");
         }
 
         protected override void Dispose(bool disposing)

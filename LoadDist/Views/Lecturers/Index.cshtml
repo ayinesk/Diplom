@@ -5,6 +5,8 @@
 }
 
 <h2>Преподаватели</h2>
+<input type="button" value="Генерация отчёта" onclick="location.href='@Url.Action("GenerateReport", "Lecturers")'" class="btn btn-default" />
+<hr />
 
 <p>
     @Html.ActionLink("Добавить", "Create")

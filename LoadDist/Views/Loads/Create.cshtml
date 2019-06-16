@@ -4,114 +4,153 @@
     ViewBag.Title = "Добавление нагрузки";
 }
 
+<script>
+    function onLecturerSelected() {
+        var value = $('#Lecturer_Id').val();
+        var data = { lecturerId: value };
+        $.post("/Loads/UpdateSylContentDDL", data, function (data) {
+            $("#SyllabusContent_Id")[0].innerHTML = data;
+        });
+        return false;
+    }
+
+    function onStreamSelected() {
+        var value = $('#Stream_Id').val();
+        var data = { streamId: value };
+        $.post("/Loads/UpdateGroupDDL", data, function (data) {
+            $("#Group_Id")[0].innerHTML = data;
+        });
+        return false;
+    }
+
+    function onSyllabusContentSelected() {
+        var scValue = $('#SyllabusContent_Id').val();
+        var groupValue = $("#Group_Id").val();
+        var data = { scId: scValue, groupId: groupValue};
+        $.post("/Loads/UpdateHoursData", data, function (data) {
+            var hours = $.parseJSON(data);
+            $('#LectureHours')[0].value = hours['LectureHours'];
+            $('#LabsHours')[0].value = hours['LabsHours'];
+            $('#PracticalHours')[0].value = hours['PracticalHours'];
+            $('#ExamHours')[0].value = hours['ExamHours'];
+            $('#TestHours')[0].value = hours['TestHours'];
+            $('#Consultation')[0].value = hours['Consultation'];
+        });
+        return false;
+    }
+
+    window.onload = function () {
+        $('#Lecturer_Id').on("change", onLecturerSelected);
+        $('#Stream_Id').on("change", onStreamSelected);
+        $('#SyllabusContent_Id').on("change", onSyllabusContentSelected);
+    };
+</script>
+
 <h2>Добавить нагрузку</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="form-group">
-            @Html.Label("Преподаватель", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.DropDownListFor(model => model.Lecturer.Id, ViewBag.Lecturers as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Преподаватель", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownListFor(model => model.Lecturer.Id, ViewBag.Lecturers as SelectList, "", new { htmlAttributes = 
+                       new { @class = "form-control", @name = "lecturerId" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Год", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.EditorFor(model => model.Term, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Поток", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownListFor(model => model.Stream.Id, ViewBag.Streams as SelectList, "", new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Группа", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownListFor(model => model.Group.Id, ViewBag.Groups as SelectList, "", new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Элемент учебного плана", new { htmlAttributes = new { @class = "control-label" } })
+                    <div>
+                        @Html.DropDownListFor(model => model.SyllabusContent.Id, ViewBag.SyllabusContent as SelectList, "", new { htmlAttributes = new { @class = "form-control", @id = "sylContent" } })
+                    </div>
+                </div>
+
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Год", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                @Html.Label("Лекции", new { htmlAttributes = new { @class = "control-label" } })
+                <div>
+                    @Html.EditorFor(model => model.LectureHours, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LectureHours, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Семестр", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.Term, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Term, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.Label("Лабораторные работы", new { htmlAttributes = new { @class = "control-label" } })
+                <div>
+                    @Html.EditorFor(model => model.LabsHours, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LabsHours, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Поток", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.DropDownListFor(model => model.Stream.Id, ViewBag.Streams as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                @Html.Label("Практичские занятия", new { htmlAttributes = new { @class = "control-label" } })
+                <div>
+                    @Html.EditorFor(model => model.PracticalHours, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PracticalHours, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Группа", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.DropDownListFor(model => model.Group.Id, ViewBag.Groups as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                @Html.Label("Экзамен", new { htmlAttributes = new { @class = "control-label" } })
+                <div>
+                    @Html.EditorFor(model => model.ExamHours, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ExamHours, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Предмет", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.DropDownListFor(model => model.Subject.Id, ViewBag.Subjects as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                @Html.Label("Зачёт", new { htmlAttributes = new { @class = "control-label" } })
+                <div>
+                    @Html.EditorFor(model => model.TestHours, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TestHours, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Элемент учебного плана", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.DropDownListFor(model => model.SyllabusContent.Id, ViewBag.SyllabusContent as SelectList, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                @Html.Label("Консультации", new { htmlAttributes = new { @class = "control-label" } })
+                <div>
+                    @Html.EditorFor(model => model.Consultation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Consultation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <input type="submit" value="Добавить" class="btn btn-default" />
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="form-group">
-            @Html.Label("Лекции", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.LectureHours, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LectureHours, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Лабораторные работы", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.LabsHours, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LabsHours, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Практичские занятия", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.PracticalHours, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PracticalHours, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Экзамен", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.ExamHours, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ExamHours, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Зачёт", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.TestHours, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TestHours, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("Консультации", new { htmlAttributes = new { @class = "control-label" } })
-            <div>
-                @Html.EditorFor(model => model.Consultation, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Consultation, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <input type="submit" value="Добавить" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Вернуться к списку", "Index")
 </div>
 
 @section Scripts {
